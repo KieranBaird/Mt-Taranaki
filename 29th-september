@@ -1,0 +1,46 @@
+import processing.pdf.*;
+PShape s;  // The PShape object
+PFont font;
+Table Altitude;
+
+void setup() {
+  Altitude = loadTable("data.csv", "header");
+  println(Altitude.getInt(0, "Altitude"));
+  println(Altitude.getInt(0, "Distance"));
+  
+  beginRecord(PDF, "29th_Sept_Output.pdf");
+  
+  fill(0);
+    font = createFont("Signatrue", 22);
+    textFont(font);
+    textAlign(CENTER, CENTER);
+    text("Mt", 725, 210);
+    
+    font = createFont("Signatrue", 22);
+    textFont(font);
+    textAlign(CENTER, CENTER);
+    text("Taranaki", 800, 230);
+  
+
+  
+  //size(2550, 1000);
+  fullScreen();
+  s = createShape();
+  s.beginShape();
+  s.noFill();
+  for(int i = 0; i < Altitude.getRowCount() ; i++){
+  s.vertex(Altitude.getInt(i, "Distance")/10,300-Altitude.getInt(i, "Altitude")/10);
+  }
+  s.endShape(OPEN);
+
+  
+  noFill();
+  rect(10, 10, 975, 260, 30);
+  
+  }
+ 
+
+void draw() {
+ shape(s);
+ endRecord();
+}
